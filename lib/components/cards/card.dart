@@ -1,0 +1,153 @@
+import 'package:finance_digest/constants/theme/app_fonts.dart';
+import 'package:finance_digest/utils/text_style_helper.dart';
+import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
+import '../../constants/theme/app_colors.dart';
+
+class CardItem extends StatelessWidget {
+  final String image;
+  final String source;
+  final String date;
+  final String headline;
+  final String url;
+
+  const CardItem({
+    super.key,
+    required this.image,
+    required this.source,
+    required this.date,
+    required this.headline,
+    required this.url,
+  });
+
+  //Method to launch the URL in an external site
+  Future<void> _launchUrl() async {
+    final uri = Uri.parse(url);
+    if (await canLaunchUrl(uri)) {
+      await launchUrl(uri, mode: LaunchMode.externalApplication);
+    } else {
+      debugPrint('Could not launch $url');
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final appColors = Theme.of(context).extension<AppColors>();
+    final appFonts = Theme.of(context).extension<AppFonts>();
+
+    return GestureDetector(
+      onTap: _launchUrl,
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            _buildImage(),
+            const SizedBox(width: 10),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  _buildSourceAndDate(context, appColors, appFonts),
+                  const SizedBox(height: 8),
+                  _buildHeadline(context, appColors),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildImage() {
+    return Image.network(
+      image,
+      height: 100,
+      width: 100,
+      fit: BoxFit.cover,
+      loadingBuilder: (context, child, loadingProgress) {
+        if (loadingProgress == null) {
+          return child;
+        } else {
+          return SizedBox(
+            height: 100,
+            width: 100,
+            child: Center(
+              child: CircularProgressIndicator(
+                value: loadingProgress.expectedTotalBytes != null
+                    ? loadingProgress.cumulativeBytesLoaded /
+                        loadingProgress.expectedTotalBytes!
+                    : null,
+              ),
+            ),
+          );
+        }
+      },
+      errorBuilder: (context, error, stackTrace) {
+        return Container(
+          height: 100,
+          width: 100,
+          color: Colors.grey[300],
+          child: const Icon(Icons.broken_image, color: Colors.grey),
+        );
+      },
+    );
+  }
+
+  Widget _buildSourceAndDate(
+      BuildContext context, AppColors? appColors, AppFonts? appFonts) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Flexible(
+          child: _buildHeaderText(
+            context: context,
+            title: source.toUpperCase(),
+            appColors: appColors,
+            appFonts: appFonts,
+          ),
+        ),
+        const SizedBox(width: 10),
+        _buildHeaderText(
+          context: context,
+          title: date.toUpperCase(),
+          appColors: appColors,
+          appFonts: appFonts,
+        ),
+      ],
+    );
+  }
+
+  Widget _buildHeadline(BuildContext context, AppColors? appColors) {
+    return Text(
+      headline,
+      style: reusableTextStyle(
+        context: context,
+        color: appColors?.white,
+        fontWeight: FontWeight.w500,
+        fontSize: 20,
+      ).copyWith(height: 1.2),
+      maxLines: 3,
+      overflow: TextOverflow.ellipsis,
+    );
+  }
+
+  Widget _buildHeaderText({
+    required BuildContext context,
+    required String title,
+    AppColors? appColors,
+    AppFonts? appFonts,
+  }) {
+    return Text(
+      title,
+      style: reusableTextStyle(
+        context: context,
+        fontFamily: appFonts?.subFont,
+        color: appColors?.white,
+        fontSize: 12,
+      ),
+      overflow: TextOverflow.ellipsis,
+    );
+  }
+}

@@ -35,17 +35,28 @@ dependencies:
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.8
+  flutter_svg: ^2.0.0
+  flutter_local_notifications: ^17.2.3
+  http: ^1.2.2
+  shared_preferences: ^2.3.2
+  json_annotation: ^4.9.0
+  url_launcher: ^6.3.1
+  intl: ^0.19.0
+  
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
+
+  build_runner: ^2.3.0
+  json_serializable: ^6.8.0
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
   # activated in the `analysis_options.yaml` file located at the root of your
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
-  flutter_lints: ^4.0.0
+  flutter_lints: ^5.0.0
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
@@ -57,6 +68,42 @@ flutter:
   # included with your application, so that you can use the icons in
   # the material Icons class.
   uses-material-design: true
+
+  assets:
+    - lib/assets/icons/
+
+  fonts:
+    - family: Poppins
+      fonts:
+        - asset: lib/assets/fonts/Roboto-Regular.ttf
+          weight: 400
+        - asset: lib/assets/fonts/Roboto-Bold.ttf
+          weight: 700
+        - asset: lib/assets/fonts/Roboto-Medium.ttf
+          weight: 500
+
+    - family: Raleway
+      fonts:
+        - asset: lib/assets/fonts/Raleway-Regular.ttf
+          weight: 400
+        - asset: lib/assets/fonts/Raleway-Bold.ttf
+          weight: 700
+        - asset: lib/assets/fonts/Raleway-Medium.ttf
+          weight: 500
+        - asset: lib/assets/fonts/Raleway-Black.ttf
+          weight: 900
+
+    - family: Rubik
+      fonts:
+        - asset: lib/assets/fonts/Rubik-Regular.ttf
+          weight: 400
+        - asset: lib/assets/fonts/Rubik-Bold.ttf
+          weight: 700
+        - asset: lib/assets/fonts/Rubik-Medium.ttf
+          weight: 500
+        - asset: lib/assets/fonts/Rubik-Black.ttf
+          weight: 900
+    
 
   # To add assets to your application, add an assets section, like this:
   # assets:
