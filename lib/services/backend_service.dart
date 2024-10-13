@@ -24,7 +24,6 @@ class BackendService {
     }
 
     final uri = Uri.parse('${_getHost()}$path');
-    print(uri);
     return http.get(uri, headers: headers0);
   }
 }

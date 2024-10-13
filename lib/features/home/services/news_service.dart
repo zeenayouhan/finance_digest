@@ -1,6 +1,8 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:flutter/material.dart';
+
 import '../../../services/backend_service.dart';
 import '../models/news_item.dart';
 
@@ -12,7 +14,7 @@ class NewsService extends BackendService {
     try {
       final response =
           await get('/v1/news?category=general&token=$apiKey&minId=10');
-      print(response.body);
+
       if (response.statusCode < 200 || response.statusCode > 399) {
         throw Exception(response.body);
       }
@@ -22,10 +24,10 @@ class NewsService extends BackendService {
       // Convert JSON list to List<NewsItem>
       List<NewsItem> newsItems =
           jsonList.map((json) => NewsItem.fromJson(json)).toList();
-      print({'dd', newsItems});
+
       return newsItems;
     } catch (e) {
-      print("dddd");
+      debugPrint('Failed to fetch list of news');
     }
     return null;
   }

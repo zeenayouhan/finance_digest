@@ -17,7 +17,6 @@ class AuthService extends ChangeNotifier {
     final lastName = sharedPreferences.getString(
       AuthenticationMetadata.lastNameKey,
     );
-    print({isSignedUp, lastName, firstName});
 
     return AuthenticationMetadata(
       isSignedUp: isSignedUp,
