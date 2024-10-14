@@ -1,19 +1,13 @@
-import 'dart:io';
-
-import 'package:finance_digest/features/home/screens/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import '../../../constants/routes/routes.dart';
 import '../../../constants/theme/app_colors.dart';
 import '../services/auth_service.dart';
 import '../services/notification_service.dart';
 import '../../../utils/text_style_helper.dart';
 
 class NotificationsScreen extends StatefulWidget {
-  const NotificationsScreen(
-      {super.key, required this.firstName, required this.lastName});
-
-  final String firstName;
-  final String lastName;
+  const NotificationsScreen({super.key});
 
   @override
   State<NotificationsScreen> createState() => _NotificationsScreenState();
@@ -22,24 +16,32 @@ class NotificationsScreen extends StatefulWidget {
 class _NotificationsScreenState extends State<NotificationsScreen> {
   final NotificationService _notificationService = NotificationService();
   AuthService authService = AuthService();
+  late String firstName;
+  late String lastName;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    final args =
+        ModalRoute.of(context)!.settings.arguments as Map<String, String>;
+    firstName = args['firstName'] ?? '';
+    lastName = args['lastName'] ?? '';
+  }
 
   Future<void> onPress() async {
     try {
       await _notificationService.init();
-
-      if (Platform.isAndroid) {
-        await _notificationService.requestAndroidPermissions();
-      } else {
-        await _notificationService.requestIOSPermissions();
-      }
+      await _notificationService.requestPermissions();
 
       await authService.signUp(
-        widget.firstName,
-        widget.lastName,
+        firstName,
+        lastName,
       );
-      Navigator.pushReplacement(
+
+      Navigator.pushNamedAndRemoveUntil(
         context,
-        MaterialPageRoute(builder: (context) => const HomeScreen()),
+        Routes.home,
+        (Route<dynamic> route) => false,
       );
     } catch (e) {
       debugPrint("Failed to authenticate: $e");

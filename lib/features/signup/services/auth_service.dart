@@ -11,20 +11,31 @@ class AuthService extends ChangeNotifier {
   static const String preferenceKey = 'financeDigest';
 
   Future<AuthenticationMetadata> getMetadata() async {
-    final sharedPreferences = await _sharedPreferences;
-    final isSignedUp =
-        sharedPreferences.getBool(AuthenticationMetadata.isSignedUpKey) ??
-            false;
-    final firstName =
-        sharedPreferences.getString(AuthenticationMetadata.firstNameKey) ?? '';
-    final lastName =
-        sharedPreferences.getString(AuthenticationMetadata.lastNameKey) ?? '';
+    try {
+      final sharedPreferences = await _sharedPreferences;
+      final isSignedUp =
+          sharedPreferences.getBool(AuthenticationMetadata.isSignedUpKey) ??
+              false;
+      final firstName =
+          sharedPreferences.getString(AuthenticationMetadata.firstNameKey) ??
+              '';
+      final lastName =
+          sharedPreferences.getString(AuthenticationMetadata.lastNameKey) ?? '';
 
-    return AuthenticationMetadata(
-      isSignedUp: isSignedUp,
-      firstName: firstName,
-      lastName: lastName,
-    );
+      return AuthenticationMetadata(
+        isSignedUp: isSignedUp,
+        firstName: firstName,
+        lastName: lastName,
+      );
+    } catch (e) {
+      debugPrint("Failed to get authentication metadata: $e");
+
+      return AuthenticationMetadata(
+        isSignedUp: false,
+        firstName: '',
+        lastName: '',
+      );
+    }
   }
 
   Future<void> signUp(String firstName, String lastName) async {

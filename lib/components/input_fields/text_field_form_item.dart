@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import '../../constants/theme/app_colors.dart';
-import '../../constants/theme/app_fonts.dart';
 
 class TextFieldFormItem extends StatelessWidget {
   const TextFieldFormItem({
@@ -62,7 +61,6 @@ class TextFieldFormItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final appColors = Theme.of(context).extension<AppColors>();
-    final appFonts = Theme.of(context).extension<AppFonts>();
     final hasErrorText = errorText != null;
 
     return Focus(
@@ -109,11 +107,11 @@ class TextFieldFormItem extends StatelessWidget {
               ),
               hintText: hintText,
               labelText: labelText,
-              hintStyle: TextStyle(
-                  color: appColors?.grey,
-                  fontFamily: appFonts?.mainFont,
-                  fontSize: 20,
-                  fontWeight: FontWeight.w400),
+              hintStyle: reusableTextStyle(
+                context: context,
+                color: appColors?.grey,
+                fontSize: 20,
+              ),
             ),
             textInputAction: textInputAction,
             onFieldSubmitted: onFieldSubmitted,
@@ -127,9 +125,9 @@ class TextFieldFormItem extends StatelessWidget {
             child: Text(
               errorText ?? '',
               maxLines: 3,
-              style: TextStyle(
+              style: reusableTextStyle(
+                context: context,
                 color: appColors?.redErrors,
-                fontFamily: appFonts?.mainFont,
               ),
             ),
           )

@@ -1,6 +1,8 @@
+import 'package:finance_digest/features/signup/screens/notifications_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'constants/routes/routes.dart';
 import 'constants/theme/default_theme.dart';
 import 'features/home/screens/home_screen.dart';
 import 'features/signup/screens/signup_screen.dart';
@@ -27,7 +29,12 @@ class FinanceDigest extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: getThemeDefault(),
-      home: isSignedUp ? HomeScreen() : SignupScreen(),
+      initialRoute: isSignedUp ? Routes.home : Routes.signup,
+      routes: {
+        Routes.signup: (context) => const SignupScreen(),
+        Routes.notification: (context) => const NotificationsScreen(),
+        Routes.home: (context) => const HomeScreen(),
+      },
       debugShowCheckedModeBanner: false,
     );
   }

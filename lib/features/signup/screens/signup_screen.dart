@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
 import '../../../components/input_fields/text_field_form_item.dart';
+import '../../../constants/routes/routes.dart';
 import '../../../constants/theme/app_colors.dart';
 import '../../../constants/validations/text_field_validations.dart';
 import '../../../utils/text_style_helper.dart';
-import 'notifications_screen.dart';
 
 class SignupScreen extends StatefulWidget {
   const SignupScreen({super.key});
@@ -32,13 +32,13 @@ class _SignupScreenState extends State<SignupScreen> {
   TextFieldValidator textFieldValidator = TextFieldValidator();
 
   void onPress() {
-    Navigator.push(
+    Navigator.pushNamed(
       context,
-      MaterialPageRoute(
-          builder: (context) => NotificationsScreen(
-                firstName: _firstNameController.text.trim(),
-                lastName: _lastNameController.text.trim(),
-              )),
+      Routes.notification,
+      arguments: {
+        'firstName': _firstNameController.text.trim(),
+        'lastName': _lastNameController.text.trim(),
+      },
     );
   }
 
@@ -154,11 +154,13 @@ class _SignupScreenState extends State<SignupScreen> {
         ? '${isFirstName ? 'First' : 'Last'} name cannot be empty'
         : null;
 
-    if (isFirstName) {
-      _firstNameErrorText = errorText;
-    } else {
-      _lastNameErrorText = errorText;
-    }
+    setState(() {
+      if (isFirstName) {
+        _firstNameErrorText = errorText;
+      } else {
+        _lastNameErrorText = errorText;
+      }
+    });
 
     return errorText;
   }

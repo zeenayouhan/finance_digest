@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
@@ -53,6 +55,21 @@ class NotificationService {
           ?.requestNotificationsPermission();
     } catch (e) {
       debugPrint("Error requesting Android permissions: $e");
+    }
+  }
+
+  Future<void> requestPermissions() async {
+    try {
+      if (Platform.isAndroid) {
+        await requestAndroidPermissions();
+      } else if (Platform.isIOS) {
+        await requestIOSPermissions();
+      } else {
+        debugPrint(
+            "Permissions are not required or not supported for this platform.");
+      }
+    } catch (e) {
+      debugPrint("Failed to request permissions: $e");
     }
   }
 
