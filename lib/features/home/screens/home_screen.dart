@@ -165,6 +165,7 @@ class _HomeScreenState extends State<HomeScreen> {
         final newsItem = _displayedNewsList[index];
         final date = formattedDate(newsItem.datetime);
         return CardItem(
+          key: ValueKey(newsItem.id),
           image: newsItem.image,
           date: date,
           source: newsItem.source,

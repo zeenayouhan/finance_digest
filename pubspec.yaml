@@ -43,6 +43,7 @@ dependencies:
   url_launcher: ^6.3.1
   intl: ^0.19.0
   mockito: ^5.4.4
+  cached_network_image: ^3.4.1
   
   
   
@@ -54,6 +55,7 @@ dev_dependencies:
   build_runner: ^2.3.0
   json_serializable: ^6.8.0
   test: ^1.25.7
+
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is

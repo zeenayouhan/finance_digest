@@ -1,10 +1,11 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:finance_digest/constants/theme/app_fonts.dart';
 import 'package:finance_digest/utils/text_style_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../constants/theme/app_colors.dart';
 
-class CardItem extends StatelessWidget {
+class CardItem extends StatefulWidget {
   final String image;
   final String source;
   final String date;
@@ -20,13 +21,21 @@ class CardItem extends StatelessWidget {
     required this.url,
   });
 
+  @override
+  State<CardItem> createState() => _CardItemState();
+}
+
+class _CardItemState extends State<CardItem>
+    with AutomaticKeepAliveClientMixin {
+  @override
+  bool get wantKeepAlive => true;
   //Method to launch the URL in an external site
   Future<void> _launchUrl() async {
-    final uri = Uri.parse(url);
+    final uri = Uri.parse(widget.url);
     if (await canLaunchUrl(uri)) {
       await launchUrl(uri, mode: LaunchMode.externalApplication);
     } else {
-      debugPrint('Could not launch $url');
+      debugPrint('Could not launch ${widget.url}');
     }
   }
 
@@ -61,37 +70,24 @@ class CardItem extends StatelessWidget {
   }
 
   Widget _buildImage() {
-    return Image.network(
-      image,
+    return CachedNetworkImage(
+      imageUrl: widget.image,
       height: 100,
       width: 100,
       fit: BoxFit.cover,
-      loadingBuilder: (context, child, loadingProgress) {
-        if (loadingProgress == null) {
-          return child;
-        } else {
-          return SizedBox(
-            height: 100,
-            width: 100,
-            child: Center(
-              child: CircularProgressIndicator(
-                value: loadingProgress.expectedTotalBytes != null
-                    ? loadingProgress.cumulativeBytesLoaded /
-                        loadingProgress.expectedTotalBytes!
-                    : null,
-              ),
-            ),
-          );
-        }
-      },
-      errorBuilder: (context, error, stackTrace) {
-        return Container(
-          height: 100,
-          width: 100,
-          color: Colors.grey[300],
-          child: const Icon(Icons.broken_image, color: Colors.grey),
-        );
-      },
+      placeholder: (context, url) => SizedBox(
+        height: 100,
+        width: 100,
+        child: Center(
+          child: CircularProgressIndicator(),
+        ),
+      ),
+      errorWidget: (context, url, error) => Container(
+        height: 100,
+        width: 100,
+        color: Colors.grey[300],
+        child: const Icon(Icons.broken_image, color: Colors.grey),
+      ),
     );
   }
 
@@ -103,7 +99,7 @@ class CardItem extends StatelessWidget {
         Flexible(
           child: _buildHeaderText(
             context: context,
-            title: source.toUpperCase(),
+            title: widget.source.toUpperCase(),
             appColors: appColors,
             appFonts: appFonts,
           ),
@@ -111,7 +107,7 @@ class CardItem extends StatelessWidget {
         const SizedBox(width: 10),
         _buildHeaderText(
           context: context,
-          title: date.toUpperCase(),
+          title: widget.date.toUpperCase(),
           appColors: appColors,
           appFonts: appFonts,
         ),
@@ -121,7 +117,7 @@ class CardItem extends StatelessWidget {
 
   Widget _buildHeadline(BuildContext context, AppColors? appColors) {
     return Text(
-      headline,
+      widget.headline,
       style: reusableTextStyle(
         context: context,
         color: appColors?.white,
