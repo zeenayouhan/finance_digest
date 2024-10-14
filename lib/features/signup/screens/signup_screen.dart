@@ -5,7 +5,7 @@ import '../../../components/input_fields/text_field_form_item.dart';
 import '../../../constants/theme/app_colors.dart';
 import '../../../constants/validations/text_field_validations.dart';
 import '../../../utils/text_style_helper.dart';
-import 'notifications.dart';
+import 'notifications_screen.dart';
 
 class SignupScreen extends StatefulWidget {
   const SignupScreen({super.key});

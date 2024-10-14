@@ -1,9 +1,9 @@
-import 'package:finance_digest/features/home/screens/home.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'constants/theme/default_theme.dart';
-import 'features/signup/screens/signup.dart';
+import 'features/home/screens/home_screen.dart';
+import 'features/signup/screens/signup_screen.dart';
 import 'features/signup/services/auth_service.dart';
 
 void main() async {

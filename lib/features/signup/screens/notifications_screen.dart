@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:finance_digest/features/home/screens/home.dart';
+import 'package:finance_digest/features/home/screens/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import '../../../constants/theme/app_colors.dart';
