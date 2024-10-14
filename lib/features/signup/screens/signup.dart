@@ -1,5 +1,3 @@
-import 'package:finance_digest/features/signup/screens/notifications.dart';
-import 'package:finance_digest/features/signup/services/auth_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
@@ -7,6 +5,7 @@ import '../../../components/input_fields/text_field_form_item.dart';
 import '../../../constants/theme/app_colors.dart';
 import '../../../constants/validations/text_field_validations.dart';
 import '../../../utils/text_style_helper.dart';
+import 'notifications.dart';
 
 class SignupScreen extends StatefulWidget {
   const SignupScreen({super.key});
@@ -32,21 +31,15 @@ class _SignupScreenState extends State<SignupScreen> {
 
   TextFieldValidator textFieldValidator = TextFieldValidator();
 
-  AuthService authService = AuthService();
-
-  Future<void> onPress() async {
-    try {
-      await authService.signUp(
-        _firstNameController.text.trim(),
-        _lastNameController.text.trim(),
-      );
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => const NotificationsScreen()),
-      );
-    } catch (e) {
-      debugPrint("Failed to sign up: $e");
-    }
+  void onPress() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+          builder: (context) => NotificationsScreen(
+                firstName: _firstNameController.text.trim(),
+                lastName: _lastNameController.text.trim(),
+              )),
+    );
   }
 
   @override

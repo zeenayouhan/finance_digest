@@ -12,11 +12,11 @@ class NewsService extends BackendService {
   Future<List<NewsItem>?> getNewsList() async {
     const apiKey = String.fromEnvironment('API_KEY');
     try {
-      final response =
-          await get('/v1/news?category=general&token=$apiKey&minId=10');
+      final response = await get('/v1/news?category=general&token=$apiKey');
 
-      if (response.statusCode < 200 || response.statusCode > 399) {
-        throw Exception(response.body);
+      if (response.statusCode < 200 || response.statusCode >= 300) {
+        throw Exception(
+            'Failed with status code: ${response.statusCode}. Response: ${response.body}');
       }
       // Parse the JSON string
       List<dynamic> jsonList = json.decode(response.body);
@@ -27,8 +27,8 @@ class NewsService extends BackendService {
 
       return newsItems;
     } catch (e) {
-      debugPrint('Failed to fetch list of news');
+      debugPrint('Failed to fetch list of news: $e');
+      rethrow;
     }
-    return null;
   }
 }

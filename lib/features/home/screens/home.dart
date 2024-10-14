@@ -55,6 +55,12 @@ class _HomeScreenState extends State<HomeScreen> {
     }
   }
 
+  void _handleError() {
+    setState(() {
+      errorMessage = 'Something went wrong. Please try again later.';
+    });
+  }
+
   Future<void> _getNews() async {
     setState(() {
       _isLoadingMore = true;
@@ -69,10 +75,8 @@ class _HomeScreenState extends State<HomeScreen> {
         });
       }
     } catch (e) {
-      setState(() {
-        errorMessage = 'Something went wrong. Please try again later.';
-      });
       debugPrint('Error fetching news: $e');
+      _handleError();
     } finally {
       setState(() {
         _isLoadingMore = false;

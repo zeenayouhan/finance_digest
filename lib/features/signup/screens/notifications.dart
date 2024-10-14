@@ -2,11 +2,16 @@ import 'package:finance_digest/features/home/screens/home.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import '../../../constants/theme/app_colors.dart';
+import '../services/auth_service.dart';
 import '../services/notification_service.dart';
 import '../../../utils/text_style_helper.dart';
 
 class NotificationsScreen extends StatefulWidget {
-  const NotificationsScreen({super.key});
+  const NotificationsScreen(
+      {super.key, required this.firstName, required this.lastName});
+
+  final String firstName;
+  final String lastName;
 
   @override
   State<NotificationsScreen> createState() => _NotificationsScreenState();
@@ -14,17 +19,22 @@ class NotificationsScreen extends StatefulWidget {
 
 class _NotificationsScreenState extends State<NotificationsScreen> {
   final NotificationService _notificationService = NotificationService();
+  AuthService authService = AuthService();
 
   Future<void> onPress() async {
     try {
       await _notificationService.init();
       await _notificationService.requestIOSPermissions();
+      await authService.signUp(
+        widget.firstName,
+        widget.lastName,
+      );
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(builder: (context) => const HomeScreen()),
       );
     } catch (e) {
-      debugPrint("Failed to show permission modal: $e");
+      debugPrint("Failed to authenticate: $e");
     }
   }
 
