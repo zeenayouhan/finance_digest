@@ -79,30 +79,6 @@ Make sure that your Java SDK version is 17 or above, and set the `JAVA_HOME` env
 
 We are continuously working to improve the app and welcome contributions or feedback to enhance the onboarding experience and app performance.
 
-## Contributing
-We welcome contributions to improve Finance Digest. Feel free to fork the repository and submit pull requests. For major changes, please open an issue first to discuss what you would like to change.
-
-### How to Contribute
-1. **Fork the Repository**: Click on the "Fork" button at the top right corner of this repository to create your copy.
-2. **Clone the Forked Repository**: Use the following command to clone your forked repository to your local machine:
-   ```sh
-   git clone https://github.com/your-username/finance_digest.git
-   ```
-3. **Create a New Branch**: Create a new branch for your feature or bug fix.
-   ```sh
-   git checkout -b feature/your-feature-name
-   ```
-4. **Make Changes**: Make your code changes and improvements.
-5. **Commit Changes**: Commit your changes with a descriptive commit message.
-   ```sh
-   git commit -m "Add your feature description here"
-   ```
-6. **Push Changes**: Push your changes to your forked repository.
-   ```sh
-   git push origin feature/your-feature-name
-   ```
-7. **Create a Pull Request**: Go to the original repository and click on "Compare & pull request" to submit your changes for review.
-
 ## License
 This project is licensed under the MIT License.
 
