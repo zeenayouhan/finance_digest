@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:finance_digest/features/home/screens/home.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -24,7 +26,13 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
   Future<void> onPress() async {
     try {
       await _notificationService.init();
-      await _notificationService.requestIOSPermissions();
+
+      if (Platform.isAndroid) {
+        await _notificationService.requestAndroidPermissions();
+      } else {
+        await _notificationService.requestIOSPermissions();
+      }
+
       await authService.signUp(
         widget.firstName,
         widget.lastName,
